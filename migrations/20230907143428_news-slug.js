@@ -2,14 +2,18 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export default function up(knex) {
-  
+export async function up(knex) {
+  await knex.schema.alterTable('news', (table) => {
+    table.text('slug');
+  })
 };
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export default function down(knex) {
-  
+export async function down(knex) {
+  await knex.schema.alterTable('news', (table) => {
+    table.dropColumn('slug');
+  })
 };

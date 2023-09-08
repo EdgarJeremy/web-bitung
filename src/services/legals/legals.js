@@ -42,9 +42,12 @@ export const legals = (app) => {
       all: [schemaHooks.validateQuery(legalsQueryValidator), schemaHooks.resolveQuery(legalsQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(legalsDataValidator), schemaHooks.resolveData(legalsDataResolver)],
-      patch: [schemaHooks.validateData(legalsPatchValidator), schemaHooks.resolveData(legalsPatchResolver)],
-      remove: []
+      create: [
+        authenticate('jwt'), schemaHooks.validateData(legalsDataValidator), schemaHooks.resolveData(legalsDataResolver)],
+      patch: [
+        authenticate('jwt'), schemaHooks.validateData(legalsPatchValidator), schemaHooks.resolveData(legalsPatchResolver)],
+      remove: [
+        authenticate('jwt')]
     },
     after: {
       all: []

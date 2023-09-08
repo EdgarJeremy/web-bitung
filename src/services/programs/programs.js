@@ -33,7 +33,6 @@ export const programs = (app) => {
   app.service(programsPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(programsExternalResolver),
         schemaHooks.resolveResult(programsResolver)
       ]
@@ -46,14 +45,17 @@ export const programs = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
         schemaHooks.validateData(programsDataValidator),
         schemaHooks.resolveData(programsDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(programsPatchValidator),
         schemaHooks.resolveData(programsPatchResolver)
       ],
-      remove: []
+      remove: [
+        authenticate('jwt')]
     },
     after: {
       all: []

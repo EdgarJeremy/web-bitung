@@ -33,7 +33,6 @@ export const categories = (app) => {
   app.service(categoriesPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(categoriesExternalResolver),
         schemaHooks.resolveResult(categoriesResolver)
       ]
@@ -46,14 +45,16 @@ export const categories = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
         schemaHooks.validateData(categoriesDataValidator),
         schemaHooks.resolveData(categoriesDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(categoriesPatchValidator),
         schemaHooks.resolveData(categoriesPatchResolver)
       ],
-      remove: []
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

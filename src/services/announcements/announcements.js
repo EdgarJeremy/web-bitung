@@ -33,7 +33,6 @@ export const announcements = (app) => {
   app.service(announcementsPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(announcementsExternalResolver),
         schemaHooks.resolveResult(announcementsResolver)
       ]
@@ -46,14 +45,16 @@ export const announcements = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
         schemaHooks.validateData(announcementsDataValidator),
         schemaHooks.resolveData(announcementsDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(announcementsPatchValidator),
         schemaHooks.resolveData(announcementsPatchResolver)
       ],
-      remove: []
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

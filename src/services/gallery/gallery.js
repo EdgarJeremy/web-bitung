@@ -33,7 +33,6 @@ export const gallery = (app) => {
   app.service(galleryPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(galleryExternalResolver),
         schemaHooks.resolveResult(galleryResolver)
       ]
@@ -42,9 +41,9 @@ export const gallery = (app) => {
       all: [schemaHooks.validateQuery(galleryQueryValidator), schemaHooks.resolveQuery(galleryQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(galleryDataValidator), schemaHooks.resolveData(galleryDataResolver)],
-      patch: [schemaHooks.validateData(galleryPatchValidator), schemaHooks.resolveData(galleryPatchResolver)],
-      remove: []
+      create: [authenticate('jwt'), schemaHooks.validateData(galleryDataValidator), schemaHooks.resolveData(galleryDataResolver)],
+      patch: [authenticate('jwt'), schemaHooks.validateData(galleryPatchValidator), schemaHooks.resolveData(galleryPatchResolver)],
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

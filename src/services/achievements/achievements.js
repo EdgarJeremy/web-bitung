@@ -33,7 +33,6 @@ export const achievements = (app) => {
   app.service(achievementsPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(achievementsExternalResolver),
         schemaHooks.resolveResult(achievementsResolver)
       ]
@@ -46,14 +45,16 @@ export const achievements = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
         schemaHooks.validateData(achievementsDataValidator),
         schemaHooks.resolveData(achievementsDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(achievementsPatchValidator),
         schemaHooks.resolveData(achievementsPatchResolver)
       ],
-      remove: []
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

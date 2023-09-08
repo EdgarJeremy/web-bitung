@@ -1,3 +1,5 @@
+import { metadata } from './metadata/metadata.js'
+
 import { databank } from './databank/databank.js'
 
 import { publicServices } from './public-services/public-services.js'
@@ -25,6 +27,8 @@ import { categories } from './categories/categories.js'
 import { user } from './users/users.js'
 
 export const services = (app) => {
+  app.configure(metadata)
+
   app.configure(databank)
 
   app.configure(publicServices)

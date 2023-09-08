@@ -2,11 +2,13 @@
 import { resolve, virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
+import slug from 'slug'
 
 // Main data model schema
 export const newsSchema = Type.Object(
   {
     id: Type.Number(),
+    slug: Type.String(),
     banner: Type.String(),
     title: Type.String(),
     content: Type.String(),
@@ -40,7 +42,8 @@ export const newsDataSchema = Type.Pick(newsSchema, ['title', 'content', 'conten
 })
 export const newsDataValidator = getValidator(newsDataSchema, dataValidator)
 export const newsDataResolver = resolve({
-  user_id: async (value, data, context) => context.params.user.id
+  user_id: async (value, data, context) => context.params.user.id,
+  slug: async (value, data, context) => slug(data.title)
 })
 
 // Schema for updating existing entries

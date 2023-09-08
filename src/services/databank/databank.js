@@ -33,7 +33,6 @@ export const databank = (app) => {
   app.service(databankPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(databankExternalResolver),
         schemaHooks.resolveResult(databankResolver)
       ]
@@ -46,14 +45,16 @@ export const databank = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
         schemaHooks.validateData(databankDataValidator),
         schemaHooks.resolveData(databankDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(databankPatchValidator),
         schemaHooks.resolveData(databankPatchResolver)
       ],
-      remove: []
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

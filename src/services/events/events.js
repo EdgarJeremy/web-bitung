@@ -33,7 +33,6 @@ export const events = (app) => {
   app.service(eventsPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(eventsExternalResolver),
         schemaHooks.resolveResult(eventsResolver)
       ]
@@ -42,9 +41,9 @@ export const events = (app) => {
       all: [schemaHooks.validateQuery(eventsQueryValidator), schemaHooks.resolveQuery(eventsQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(eventsDataValidator), schemaHooks.resolveData(eventsDataResolver)],
-      patch: [schemaHooks.validateData(eventsPatchValidator), schemaHooks.resolveData(eventsPatchResolver)],
-      remove: []
+      create: [authenticate('jwt'), schemaHooks.validateData(eventsDataValidator), schemaHooks.resolveData(eventsDataResolver)],
+      patch: [authenticate('jwt'), schemaHooks.validateData(eventsPatchValidator), schemaHooks.resolveData(eventsPatchResolver)],
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

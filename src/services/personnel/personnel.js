@@ -33,7 +33,6 @@ export const personnel = (app) => {
   app.service(personnelPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(personnelExternalResolver),
         schemaHooks.resolveResult(personnelResolver)
       ]
@@ -46,14 +45,17 @@ export const personnel = (app) => {
       find: [],
       get: [],
       create: [
+        authenticate('jwt'),
         schemaHooks.validateData(personnelDataValidator),
         schemaHooks.resolveData(personnelDataResolver)
       ],
       patch: [
+        authenticate('jwt'),
         schemaHooks.validateData(personnelPatchValidator),
         schemaHooks.resolveData(personnelPatchResolver)
       ],
-      remove: []
+      remove: [
+        authenticate('jwt')]
     },
     after: {
       all: []
