@@ -13,10 +13,10 @@ export * from './uploads.class.js'
 // A configure function that registers the service and its hooks via `app.configure`
 export const uploads = (app) => {
   // Register our service on the Feathers application
-  app.use(uploadsPath, multipartMiddleware.single('file'), new UploadsService(getOptions(app)), (req, res, next) => {
+  app.use(uploadsPath, multipartMiddleware.single('file'), (req, res, next) => {
     req.feathers.file = req.file;
     next();
-  }, {
+  }, new UploadsService(getOptions(app)), {
     // A list of all methods this service exposes externally
     methods: uploadsMethods,
     // You can add additional custom events to be sent to clients here
@@ -25,15 +25,15 @@ export const uploads = (app) => {
   // Initialize hooks
   app.service(uploadsPath).hooks({
     around: {
-      all: [authenticate('jwt')]
+      // all: []
     },
     before: {
       all: [],
       find: [],
       get: [],
-      create: [],
-      patch: [],
-      remove: []
+      create: [authenticate('jwt')],
+      patch: [authenticate('jwt')],
+      remove: [authenticate('jwt')]
     },
     after: {
       all: []

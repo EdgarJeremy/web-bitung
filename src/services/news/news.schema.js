@@ -13,7 +13,7 @@ export const newsSchema = Type.Object(
     title: Type.String(),
     content: Type.String(),
     content_raw: Type.String(),
-    category_id: Type.Number(),
+    category_id: Type.String(),
     user_id: Type.Number(),
     created_at: Type.String({ format: 'date-time' }),
     updated_at: Type.String({ format: 'date-time' })
@@ -37,7 +37,7 @@ export const newsResolver = resolve({
 export const newsExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const newsDataSchema = Type.Pick(newsSchema, ['title', 'content', 'content_raw', 'category_id'], {
+export const newsDataSchema = Type.Pick(newsSchema, ['banner', 'title', 'content', 'content_raw', 'category_id'], {
   $id: 'NewsData'
 })
 export const newsDataValidator = getValidator(newsDataSchema, dataValidator)
@@ -54,7 +54,7 @@ export const newsPatchValidator = getValidator(newsPatchSchema, dataValidator)
 export const newsPatchResolver = resolve({})
 
 // Schema for allowed query properties
-export const newsQueryProperties = Type.Pick(newsSchema, ['id', 'text'])
+export const newsQueryProperties = Type.Pick(newsSchema, ['id', 'title'])
 export const newsQuerySchema = Type.Intersect(
   [
     querySyntax(newsQueryProperties),

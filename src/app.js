@@ -11,6 +11,8 @@ import express, {
 } from '@feathersjs/express'
 import configuration from '@feathersjs/configuration'
 import socketio from '@feathersjs/socketio'
+import fs from 'fs'
+import path from 'path'
 import { configurationValidator } from './configuration.js'
 import { logger } from './logger.js'
 import { logError } from './hooks/log-error.js'
@@ -30,6 +32,12 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 // Host the public folder
 app.use('/', serveStatic(app.get('public')))
+
+app.get('/storage/:file', (req, res) => {
+  const { file } = req.params;
+  const storagePath = path.resolve('./storage/');
+  res.sendFile(`${storagePath}/${file}`);
+})
 
 // Configure services and real-time functionality
 app.configure(rest())

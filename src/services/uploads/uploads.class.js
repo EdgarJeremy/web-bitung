@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
+import fs from 'fs';
 
 // This is a skeleton for a custom service class. Remove or add the methods you need here
 export class UploadsService {
