@@ -22,7 +22,7 @@ export const personnelResolver = resolve({})
 export const personnelExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const personnelDataSchema = Type.Pick(personnelSchema, ['text'], {
+export const personnelDataSchema = Type.Pick(personnelSchema, ['name', 'position', 'class', 'rank'], {
   $id: 'PersonnelData'
 })
 export const personnelDataValidator = getValidator(personnelDataSchema, dataValidator)
@@ -36,7 +36,7 @@ export const personnelPatchValidator = getValidator(personnelPatchSchema, dataVa
 export const personnelPatchResolver = resolve({})
 
 // Schema for allowed query properties
-export const personnelQueryProperties = Type.Pick(personnelSchema, ['id', 'text'])
+export const personnelQueryProperties = Type.Pick(personnelSchema, ['id', 'name', 'position', 'class', 'rank'])
 export const personnelQuerySchema = Type.Intersect(
   [
     querySyntax(personnelQueryProperties),

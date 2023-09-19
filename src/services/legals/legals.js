@@ -33,7 +33,6 @@ export const legals = (app) => {
   app.service(legalsPath).hooks({
     around: {
       all: [
-        authenticate('jwt'),
         schemaHooks.resolveExternal(legalsExternalResolver),
         schemaHooks.resolveResult(legalsResolver)
       ]
